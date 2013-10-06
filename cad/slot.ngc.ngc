@@ -1,0 +1,45 @@
+(Generated with: dxf2gcode, Version: pyQT Beta, Date: $Date: 2013-04-01 20:05:08 +0200 (Mo, 01 Apr 2013) $)
+(Time: Tue Aug 27 13:53:30 2013)
+(Created from file: Z:/home/jesse/cad/burninator/slot.dxf)
+G20 (Unit in inches) G90 (Absolute distance mode) G64 P0.01 (Exact Path 0.001 tol.) G17 G40 (Cancel diameter comp.) G49 (Cancel length comp.)
+G0 Z   0.2500 
+
+(*** LAYER: 0 ***)
+T1 M6
+S26000
+
+(* SHAPE Nr: 0 *)
+G0 X   1.0635 Y  -0.0620
+M3 M8
+G41
+F30
+G1 X   1.1255 Y  -0.1245
+G3 X   1.2500 Y   0.0000 I   0.0000 J   0.1245
+G0 Z   0.2500 
+F5
+G1 Z  -0.1250
+F30
+G1 X   1.2500 Y   2.0000
+G1 X   7.0000 Y   2.0000
+G1 X   8.2500 Y   0.0000
+G1 X   1.2500 Y   0.0000
+F5
+G1 Z  -0.2500
+F30
+G1 X   1.2500 Y   2.0000
+G1 X   7.0000 Y   2.0000
+G1 X   8.2500 Y   0.0000
+G1 X   1.2500 Y   0.0000
+F5
+G1 Z  -0.2700
+F30
+G1 X   1.2500 Y   2.0000
+G1 X   7.0000 Y   2.0000
+G1 X   8.2500 Y   0.0000
+G1 X   1.2500 Y   0.0000
+G1 Z   0.2500
+G0 Z   0.2500 
+G40
+M9 M5
+G0 X   0.0000 Y   0.0000
+M2 (Prgram end)
