@@ -1,0 +1,14 @@
+
+
+
+
+
+.build/diecimila-55156a30/src/Burner.cpp : src/Burner.ino
+	@mkdir -p .build/diecimila-55156a30/src
+	@echo src/Burner.ino
+	@/usr/local/bin/ino preproc -d /home/jesse/code/arduino/arduino-1.0.5/ -o $@ $^
+
+
+all : .build/diecimila-55156a30/src/Burner.cpp
+	@true
+

@@ -1,0 +1,37 @@
+
+[indentation]
+indent_width=4
+indent_type=1
+indent_hard_tab_width=8
+detect_indent=false
+detect_indent_width=false
+indent_mode=2
+
+[project]
+name=burner
+base_path=/home/jesse/code/avr/burner_ino
+description=
+file_patterns=
+
+[long line marker]
+long_line_behaviour=1
+long_line_column=72
+
+[files]
+current_page=3
+FILE_NAME_0=0;C;0;16;1;1;0;/home/jesse/code/avr/burner_ino/src/platform.h;0;4
+FILE_NAME_1=0;C;0;16;1;1;0;/home/jesse/code/avr/burner_ino/src/ISR.c;0;4
+FILE_NAME_2=0;C;0;16;1;1;0;/home/jesse/code/avr/burner_ino/src/ISR.h;0;4
+FILE_NAME_3=1359;C++;0;16;1;1;0;/home/jesse/code/avr/burner_ino/src/Burner.ino;0;4
+
+[VTE]
+last_dir=/home/jesse
+
+[build-menu]
+C++FT_01_LB=_Build
+C++FT_01_CM=ino build
+C++FT_01_WD=/home/jesse/code/avr/burner_ino
+filetypes=C++;
+EX_00_LB=_Execute
+EX_00_CM=x .\navrdude -p m168 -c usbtiny -B 1 -U flash:w:firmware.hex
+EX_00_WD=/home/jesse/code/avr/burner_ino/.build/diecimila-55156a30/

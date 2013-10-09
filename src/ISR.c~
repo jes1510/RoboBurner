@@ -1,0 +1,49 @@
+#include <Arduino.h>
+#include "ISR.h"
+#include "platform.h"
+
+debug_mode = true;
+
+//extern int debounce_time = 1;
+//extern int encoder_counter;
+//extern int current_location ;
+
+void encoder_Interrupt(void)
+{
+  encoder_counter++;
+ // if (debug_mode) Serial.println(encoder_counter);
+  if(encoder_counter > ENCODER_MAX) encoder_counter = 0;    // Reset the counter     
+  
+}
+
+// Debounce the readings from the encoder wheel
+void encoder_debounce(void)
+{
+	
+ 
+  if ((long) (micros() - last_encoder_time) >= debounce_time * 1000)  // If the microseconds is greater than the debounce time
+  {
+    encoder_Interrupt();    // trigger the interrupt
+    last_encoder_time = micros();    // Reset the timer    
+  }
+}
+
+
+void limit_debounce(void)
+{ 
+  
+  if ((long) (micros() - last_limit_time) >= 20 * 1000)  // If the microseconds is greater than the debounce time
+  {
+    limit_Interrupt();    // trigger the interrupt
+    last_limit_time = micros();    // Reset the timer    
+  }
+}
+
+
+void limit_Interrupt(void)
+{  
+  current_location = 0;
+  encoder_counter = 0;
+ // if(debug_mode) Serial.println("HOME!");  
+}
+  
