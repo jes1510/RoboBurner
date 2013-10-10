@@ -1,5 +1,5 @@
-//#ifndef _platform_h
-//#define _platform_h
+#ifndef _platform_h
+#define _platform_h
 
 #define VERSION 0.1
 
@@ -30,4 +30,4 @@
 //extern volatile int current_location;
 //extern volatile bool echo;
 
-//#endif
+#endif

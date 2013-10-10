@@ -177,19 +177,19 @@ include .build/diecimila-55156a30/arduino/main.d
 
 
 
-.build/diecimila-55156a30/src/ISR.o : src/ISR.c
-	@echo src/ISR.c
+
+
+
+
+
+
+
+
+.build/diecimila-55156a30/src/ISR.o : src/ISR.cpp
+	@echo src/ISR.cpp
 	@mkdir -p .build/diecimila-55156a30/src
-	@/home/jesse/code/arduino/arduino-1.0.5/hardware/tools/avr/bin/avr-gcc -mmcu=atmega168 -DF_CPU=16000000L -DARDUINO=105 -I/home/jesse/code/arduino/arduino-1.0.5/hardware/arduino/cores/arduino -ffunction-sections -fdata-sections -g -Os -w -I/home/jesse/code/arduino/arduino-1.0.5/hardware/arduino/variants/standard -I/home/jesse/code/arduino/arduino-1.0.5/libraries/Servo -I/home/jesse/code/arduino/arduino-1.0.5/hardware/arduino/cores/arduino -I/home/jesse/code/arduino/arduino-1.0.5/hardware/arduino/cores/arduino/avr-libc   -o $@ -c src/ISR.c
+	@/home/jesse/code/arduino/arduino-1.0.5/hardware/tools/avr/bin/avr-g++ -mmcu=atmega168 -DF_CPU=16000000L -DARDUINO=105 -I/home/jesse/code/arduino/arduino-1.0.5/hardware/arduino/cores/arduino -ffunction-sections -fdata-sections -g -Os -w -I/home/jesse/code/arduino/arduino-1.0.5/hardware/arduino/variants/standard -I/home/jesse/code/arduino/arduino-1.0.5/libraries/Servo -I/home/jesse/code/arduino/arduino-1.0.5/hardware/arduino/cores/arduino -I/home/jesse/code/arduino/arduino-1.0.5/hardware/arduino/cores/arduino/avr-libc -fno-exceptions  -o $@ -c src/ISR.cpp
 include .build/diecimila-55156a30/src/ISR.d
-
-
-
-
-
-
-
-
 
 .build/diecimila-55156a30/src/Burner.o : .build/diecimila-55156a30/src/Burner.cpp
 	@echo src/Burner.cpp

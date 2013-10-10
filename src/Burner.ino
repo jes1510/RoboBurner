@@ -57,7 +57,7 @@ bool echo = true;				// Echo state machine for interactive mode
 unsigned long last_encoder_time = 0;	// Debounce counter for encoder
 unsigned long last_limit_time = 0;		// Debounce countrer for limit switch
 
-int debounce_time = 1;		// timer in mS for debounce on encoder
+
 
 
 char inByte;		// byte coming in serial port
@@ -67,15 +67,6 @@ Servo elbow;	// servo object for elbow
 Servo wrist; 	// servo object for wrist
 int pos = 0;    // variable to store the servo position 
 
-
-// External prototypes
-//extern void encoder_Interrupt(void);
-//extern void encoder_debounce(void);
-//extern void limit_debounce(void);
-//extern void limit_Interrupt(void);
-
-//void encoder_deb(void) { encoder_debounce();}
-//void limit_deb(void){ limit_debounce();}
  
 void setup() 
 { 
@@ -104,9 +95,7 @@ void setup()
 	delay(500);						// Give the servos time to settle
 	if (digitalRead(LEFT_LIMIT_PIN) == LOW) current_location = 0;
 	left_home();					// Move the arm to the home position
-	if (echo) prompt();  			// If the echo is on then print the prompt
-	
-	
+	if (echo) prompt();  			// If the echo is on then print the prompt	
 	
 } 
 
@@ -133,7 +122,8 @@ void loop()
       else if (inData == "right")       baseRight(BASE_CENTER_POSITION);   	// Move base to the right
       else if (inData == "stop")        baseStop();  				// Stop base
       else if (inData == "home")        left_home();       		// Mode base left until it finds home
-      else if (inData == "status")      stats();   				// Show current stats
+      else if (inData == "status")      stats();   				// Show current status
+      else if (inData == "stats")   	 stats();   					// Show current stats
       else if (inData == "get disk")    get_disk();				// Macro to get disk and lift to top
       else if (inData == "load disk")   load_disk();				// Macro to get disk and move to center
       else if (inData == "place disk")  place_disk();				// Macro to lower disk into tray
@@ -158,7 +148,6 @@ void loop()
 
 void prompt()
 {
-
   Serial.print("Burner_V");
   Serial.print(VERSION);
   Serial.print("> ");
@@ -310,8 +299,6 @@ void left_home(void)
  
   Serial.println("OK");  // Report all is ok
 }
-  
-
 
 
 
@@ -432,53 +419,4 @@ void lower_wrist(void)
 }
 
 
-void encoder_Interrupt(void)
-{
-  encoder_counter++;
- // if (debug_mode) Serial.println(encoder_counter);
-  if(encoder_counter > ENCODER_MAX) encoder_counter = 0;    // Reset the counter     
-  
-}
 
-// Debounce the readings from the encoder wheel
-void encoder_debounce(void)
-{
-	
- 
-  if ((long) (micros() - last_encoder_time) >= debounce_time * 1000)  // If the microseconds is greater than the debounce time
-  {
-    encoder_Interrupt();    // trigger the interrupt
-    last_encoder_time = micros();    // Reset the timer    
-  }
-}
-
-
-void limit_debounce(void)
-{ 
-  
-  if ((long) (micros() - last_limit_time) >= 20 * 1000)  // If the microseconds is greater than the debounce time
-  {
-    limit_Interrupt();    // trigger the interrupt
-    last_limit_time = micros();    // Reset the timer    
-  }
-}
-
-
-void limit_Interrupt(void)
-{  
-  current_location = 0;
-  encoder_counter = 0;
- // if(debug_mode) Serial.println("HOME!");  
-}
-  
-
-/*
-void encoder_Interrupt(void)
-{
-  encoder_counter++;
-  if (debug_mode) Serial.println(encoder_counter);
-  if(encoder_counter > ENCODER_MAX) encoder_counter = 0;    // Reset the counter   
-  
-  
-  
-}*/
