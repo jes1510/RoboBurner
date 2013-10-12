@@ -18,14 +18,14 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=3
-FILE_NAME_0=0;C;0;16;1;1;0;/home/jesse/code/avr/burner_ino/src/platform.h;0;4
-FILE_NAME_1=0;C;0;16;1;1;0;/home/jesse/code/avr/burner_ino/src/ISR.c;0;4
-FILE_NAME_2=0;C;0;16;1;1;0;/home/jesse/code/avr/burner_ino/src/ISR.h;0;4
-FILE_NAME_3=1359;C++;0;16;1;1;0;/home/jesse/code/avr/burner_ino/src/Burner.ino;0;4
+current_page=2
+FILE_NAME_0=241;C;0;16;1;1;0;/home/jesse/code/avr/burner_ino/src/platform.h;0;4
+FILE_NAME_1=32;C;0;16;1;1;0;/home/jesse/code/avr/burner_ino/src/ISR.h;0;4
+FILE_NAME_2=6306;C++;0;16;1;1;0;/home/jesse/code/avr/burner_ino/src/Burner.ino;0;4
+FILE_NAME_3=540;C++;0;16;1;1;0;/home/jesse/code/avr/burner_ino/src/ISR.cpp;0;4
 
 [VTE]
-last_dir=/home/jesse
+last_dir=/home/jesse/code/avr/burner_ino
 
 [build-menu]
 C++FT_01_LB=_Build
