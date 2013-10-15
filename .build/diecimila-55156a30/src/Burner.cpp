@@ -53,16 +53,16 @@ http://www.vanadiumlabs.com/mini.html
 http://www.vanadiumlabs.com/docs/mini-manual.pdf
 
 Connections
-				2	 Encoder
-				3	 Limit switch
-PD4		 6	 Shoulder Motor	
-PD5 11	Shoulder Motor
-PD5		 5	 Pump
-PD7		 7	 Pump
-*			 16	Actuator Limit
-*			 9	 Shoulder servo
-*			 10	Elbow servo 
-*			 11	Wrist Servo
+		2	Base location encoder
+		3	Actuator Limit switch
+PD4		6	Shoulder Motor H Bridge side A
+PD5		11	Shoulder Motor H Bridge side B
+PD5		5	Pump H Bridge side A
+PD7		7	Pump H bridge side B
+*		16	Actuator Limit
+*		9	Shoulder servo
+*		10	Elbow servo 
+*		11	Wrist Servo
 
 */
 
@@ -70,7 +70,6 @@ PD7		 7	 Pump
 //#include <Servo.h> 
 //#include "ISR.h"
 //#include "platform.h"
-
 
  
 bool pump_state = OFF;					// Pump state machine
@@ -93,9 +92,9 @@ int wrist_position = WRIST_RAISED_POSITION; // wrist state tracker
  
 void setup() 
 { 
-	shoulder.attach(SHOULDER_PIN);	// Connect shoulder servo object
-	elbow.attach(ELBOW_PIN);				// connect elbow servo object
-	wrist.attach(WRIST_PIN);				// Connect elbow servo object
+	shoulder.attach(SHOULDER_PIN);		// Connect shoulder servo object
+	elbow.attach(ELBOW_PIN);			// connect elbow servo object
+	wrist.attach(WRIST_PIN);			// Connect elbow servo object
 	pinMode(BASEA, OUTPUT);				 // Drive motor on base is output
 	pinMode(BASEB, OUTPUT);				 // Other pin of drive motor on base
 	pinMode(PUMPA, OUTPUT);				 // Pump is driven by output
@@ -136,25 +135,25 @@ void loop()
 			if (echo) Serial.println();	 // Dummy empty line	 
 			if (inData == "up") lift_arm();			 
 			else if (inData == "downs")			down_seek(50, 0);				// Lower arm until it finds bottom 
-			else if (inData == "down")				down(50, ARM_DN_POSITION);	// Blindly lower arm
-			else if (inData == "pump on")	pump(ON);									// Start pump
-			else if (inData == "pump off")		pump(OFF);									// Stop pump
-			else if (inData == "vent")				pump_release();				 // Stop pump and vent the vacuum
-			else if (inData == "left")				baseLeft(16);					 // Move base to the left
-			else if (inData == "center")			findCenter();		 // Move base to the right
-			else if (inData == "right")			baseRight(BASE_CENTER_POSITION);		 // Move base to the right
-			else if (inData == "stop")				baseStop();								 // Stop base
-			else if (inData == "home")				left_home();						// Mode base left until it finds home
-			else if (inData == "status")		stats();									// Show current status
-			else if (inData == "stats")				stats();											 // Show current stats
-			else if (inData == "get disk")		get_disk();						 // Macro to get disk and lift to top
-			else if (inData == "load disk")	 load_disk();								// Macro to get disk and move to center
-			else if (inData == "unload disk")	 unload_disk();								// Macro to get disk and move to center
-			else if (inData == "place disk")	place_disk();							 // Macro to lower disk into tray
-			else if (inData == "debug on")		debug_mode = true;					// turn on debug mode, prints encoder values
-			else if (inData == "debug off")	 debug_mode = false;				 // Turn off debug mode
-			else if (inData == "echo on")	echo = true;							 // Turn on echo mode
-			else if (inData == "echo off")		 echo = false;							// Turn off echo mode		 
+			else if (inData == "down")				down(50, ARM_DN_POSITION);		// Blindly lower arm
+			else if (inData == "pump on")			pump(ON);						// Start pump
+			else if (inData == "pump off")			pump(OFF);						// Stop pump
+			else if (inData == "vent")				pump_release();				 	// Stop pump and vent the vacuum
+			else if (inData == "left")				baseLeft(16);					// Move base to the left
+			else if (inData == "center")			findCenter();		 			// Move base to the right
+			else if (inData == "right")			baseRight(BASE_CENTER_POSITION);// Move base to the right
+			else if (inData == "stop")				baseStop();						// Stop base
+			else if (inData == "home")				left_home();					// Mode base left until it finds home
+			else if (inData == "status")			stats();						// Show current status
+			else if (inData == "stats")			stats();						// Show current stats
+			else if (inData == "get disk")			get_disk();						// Macro to get disk and lift to top
+			else if (inData == "load disk")	 	load_disk();					// Macro to get disk and move to center
+			else if (inData == "unload disk")	 	unload_disk();					// Macro to get disk and move to center
+			else if (inData == "place disk")		place_disk();					// Macro to lower disk into tray
+			else if (inData == "debug on")			debug_mode = true;				// turn on debug mode, prints encoder values
+			else if (inData == "debug off")	 	debug_mode = false;				// Turn off debug mode
+			else if (inData == "echo on")			echo = true;					// Turn on echo mode
+			else if (inData == "echo off")		 	echo = false;					// Turn off echo mode		 
 			
 			else					// The string wasn't recognized so it was a bad command
 			{ 
@@ -339,6 +338,9 @@ void stats(void)
 //	Return to the home position
 void left_home(void)
 {
+	lift_wrist(WRIST_RAISED_POSITION);
+	delay(500);
+	
 	encoder_counter = 0;	// Reset the location
 	lift_arm();
 	if (debug_mode) Serial.println("HOMING");
@@ -348,6 +350,7 @@ void left_home(void)
 		digitalWrite(BASEA, LOW);	 // Moves the arm left
 		digitalWrite(BASEB, HIGH);	
 	}
+	delay(500);			// Wait just a bit to reduce bounce
 	baseStop();	// Stop the arm 
 	Serial.println("OK");	// Report all is ok
 }
@@ -380,7 +383,9 @@ void pump_release(void)
 	interrupts();						 // reenable interrupts
  
 }
-	
+
+
+// Move to the center from current location	
 void findCenter()
 {
 	if (current_location > BASE_CENTER_POSITION)
@@ -402,13 +407,12 @@ void baseRight(int steps)
 	digitalWrite(BASEA, HIGH);
 	digitalWrite(BASEB, LOW);
 	encoder_counter = 0;	
-	while(encoder_counter < steps)
+	while(encoder_counter < steps + 1)
 	{
 		delay(1);
 	}
 	baseStop();
 	current_location += encoder_counter;
-	//encoder_counter = 0;
 	Serial.println("OK");
 
 }
@@ -427,13 +431,12 @@ void baseLeft(int steps)
 	digitalWrite(BASEA, LOW);
 	digitalWrite(BASEB, HIGH);
 	encoder_counter = 0;
-	while(encoder_counter < steps)
+	while(encoder_counter < steps + 1)
 	{
 		delay(1);
 	}
 	baseStop();
 	current_location -= encoder_counter;
-	//encoder_counter = 0;
 	Serial.println("OK");
 
 }

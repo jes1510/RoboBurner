@@ -21,7 +21,7 @@
 #define  WRIST_UP_POSITION  105
 #define  WRIST_DN_POSITION  110
 #define  MAX_RETRIES      5
-#define  BASE_CENTER_POSITION 16
+#define  BASE_CENTER_POSITION 15
 
 #define  SHOULDER_PIN    9
 #define  ELBOW_PIN      10
